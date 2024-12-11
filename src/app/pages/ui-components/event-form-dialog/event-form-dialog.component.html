@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Create New Event</h2>
+<mat-dialog-content class="mat-typography">
+  <form class="event-form" [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="eventName" class="form-label">Event Name</label>
+      <input type="text" class="form-control" id="eventName" formControlName="name" required>
+    </div>
+    <div class="mb-3">
+      <label for="eventDescription" class="form-label">Event Description</label>
+      <textarea class="form-control" id="eventDescription" formControlName="description" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="eventDate" class="form-label">Event Date</label>
+      <input type="date" class="form-control" id="eventDate" formControlName="date" required>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-button type="submit" [disabled]="!eventForm.valid" cdkFocusInitial>Save</button>
+    </div>
+  </form>
+</mat-dialog-content>
