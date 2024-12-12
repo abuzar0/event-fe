@@ -1,18 +1,20 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CardListComponent } from '../ui-components/card-list/card-list.component';
 import { MatDialog } from '@angular/material/dialog';
-import { UserFormDialogComponent } from '../ui-components/user-form-dialog/user-form-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
 import { EventFormDialogComponent } from '../ui-components/event-form-dialog/event-form-dialog.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { EventService } from 'src/app/services/event/event.service';
 import { PaginatorComponent } from "../ui-components/paginator/paginator.component";
+import { InputSearchComponent } from "../ui-components/input-search/input-search.component";
+import { debounceTime, distinctUntilChanged, Observable, Subject} from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-events',
   standalone: true,
-  imports: [CardListComponent, MatButtonModule, CommonModule, PaginatorComponent],
+  imports: [CardListComponent, MatButtonModule, CommonModule, PaginatorComponent, InputSearchComponent],
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss'
 })
@@ -23,9 +25,35 @@ export class EventsComponent implements OnInit {
   total: number = 0;
   totalPages: number = 1;
   events: any[] = []
-  constructor(public _authService: AuthService, private _eventService: EventService) { }
+  events$?: Observable<any>;
+  searchSubject: Subject<string> = new Subject<string>();
+  search: string = ''
+
+  constructor(public _authService: AuthService,
+    private _eventService: EventService,
+    private _route: ActivatedRoute,
+    private _router: Router
+  ) { }
+
   ngOnInit(): void {
-    this.getEvents();
+    this._route.queryParams.subscribe((params) => {
+      this.search = params['search'] || '';
+      this.page = +params['page'] || 1;
+      this.limit = +params['limit'] || 5;
+      this.getEvents();
+    });
+    this.setupSearchDebounce();
+  }
+
+  private setupSearchDebounce(): void {
+    this.searchSubject.pipe(
+      debounceTime(250),
+      distinctUntilChanged(),
+    ).subscribe((term: string) => {
+      this.search = term;
+      this.updateQueryParams(this.search);
+      this.getEvents();
+    });
   }
 
 
@@ -38,7 +66,7 @@ export class EventsComponent implements OnInit {
   }
 
   getEvents(): void {
-    this._eventService.getEventsList({ limit: this.limit, page: this.page })
+    this._eventService.getEventsList({ limit: this.limit, page: this.page }, this.search)
       .subscribe((res: any) => {
         console.log("res", res)
         this.events = res.data;
@@ -51,13 +79,17 @@ export class EventsComponent implements OnInit {
   handlePage({ page, limit }: { page: number, limit: number }): void {
     this.page = page;
     this.limit = limit;
+    this.updateQueryParams(this.search);
     this.getEvents()
+  }
+
+  searchByQuery(query: string): void {
+    this.searchSubject.next(query);
   }
 
   joinEvent(eventId: string) {
     this._eventService.joinEvent({ eventId })
       .subscribe((res) => {
-        console.log("res join", res);
         this.getEvents();
       })
   }
@@ -65,7 +97,6 @@ export class EventsComponent implements OnInit {
   approvedEvent(eventId: string) {
     this._eventService.approvedEvent(eventId, { isApprove: true })
       .subscribe((res) => {
-        console.log("res approved", res);
         this.getEvents();
       })
   }
@@ -73,9 +104,21 @@ export class EventsComponent implements OnInit {
   deleteEvent(eventId: string) {
     this._eventService.deleteEvent(eventId)
       .subscribe((res) => {
-        console.log("res delete", res);
         this.getEvents();
       })
+  }
+
+
+  updateQueryParams(search: string): void {
+    this._router.navigate([], {
+      relativeTo: this._route,
+      queryParams: {
+        search,
+        page: this.page,
+        limit: this.limit
+      },
+      queryParamsHandling: 'merge'
+    });
   }
 
 }

@@ -9,8 +9,12 @@ export class EventService {
   constructor(private _httpService: HttpService) { }
 
 
-  getEventsList({ limit, page }: { limit: number, page: number }) {
-    return this._httpService.get(`/event/list?page=${page}&limit=${limit}`);
+  getEventsList({ limit, page }: { limit: number, page: number }, query?: string) {
+    let url = `/event/list?page=${page}&limit=${limit}`;
+    if (query) {
+      url += `&search=${encodeURIComponent(query)}`;
+    }
+    return this._httpService.get(url);
   }
 
   createEvent(body: any) {
