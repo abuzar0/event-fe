@@ -1,16 +1,19 @@
 <div class="row">
   <h2 class="mb-4 col-6">Event</h2>
   <div class="col-6 text-end">
-    <button mat-button *ngIf="!_authService.isAdmin()" (click)="openEventForm()">Create Event</button>
+    <button mat-mini-fab *ngIf="!_authService.isAdmin()" (click)="openEventForm()">
+      <mat-icon class="mat-18">add_circle</mat-icon>
+    </button>
   </div>
 </div>
 
 <div class="row my-3">
-  <app-input-search (searchQuery)="searchByQuery($event)"></app-input-search>
+  <app-input-search [search]="search" (searchQuery)="searchByQuery($event)"></app-input-search>
 </div>
 
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
+@if(events.length>0){
+<div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-4">
   @for (item of events; track $index) {
   <div class="col">
     <app-card-list [event]="item" (deleteEvent)="deleteEvent($event)" (joinEvent)="joinEvent($event)"
@@ -18,6 +21,10 @@
   </div>
   }
 </div>
+}@else {
+<div class="justify-content-center ng-star-inserted row text-center w-100"> No Data Exits</div>
+}
+
 
 <app-paginator [length]="total" [pageIndex]="page" [pageSize]="limit" (_pageEvent)="handlePage($event)">
 </app-paginator>
