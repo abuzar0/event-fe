@@ -9,8 +9,8 @@ export class EventService {
   constructor(private _httpService: HttpService) { }
 
 
-  getEventsList() {
-    return this._httpService.get('/event/list');
+  getEventsList({ limit, page }: { limit: number, page: number }) {
+    return this._httpService.get(`/event/list?page=${page}&limit=${limit}`);
   }
 
   createEvent(body: any) {
