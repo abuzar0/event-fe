@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { HttpService } from '../http/http.service';
 export class AuthService {
 
 
-  constructor(private _httpService: HttpService) { }
+  constructor(private _httpService: HttpService,private router: Router) { }
 
   registerUser(body: any) {
     return this._httpService.post('/auth/register', body)
@@ -29,7 +30,11 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem("userId");
-    localStorage.removeItem("role");
+    this._httpService.post('/auth/logout',{})
+    .subscribe((res)=>{
+      localStorage.removeItem("userId");
+      localStorage.removeItem("role");
+      this.router.navigate(['/authentication/login']);
+    })
   }
 }
