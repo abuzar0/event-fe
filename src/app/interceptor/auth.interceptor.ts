@@ -10,7 +10,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const clonedRequest = req.clone({
@@ -18,9 +18,12 @@ export class AuthInterceptor implements HttpInterceptor {
     });
 
     return next.handle(clonedRequest).pipe(
-      catchError((error:HttpErrorResponse) => {
+      catchError((error: HttpErrorResponse) => {
         if (error.status === 403) {
           return this.handleTokenExpired(clonedRequest, next);
+        }
+        if (error.status === 401) {
+          this.router.navigate(['/authentication/login']);
         }
         return throwError(error);
       })

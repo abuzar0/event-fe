@@ -8,13 +8,14 @@ import { CommonModule } from '@angular/common';
 import { EventService } from 'src/app/services/event/event.service';
 import { PaginatorComponent } from "../ui-components/paginator/paginator.component";
 import { InputSearchComponent } from "../ui-components/input-search/input-search.component";
-import { debounceTime, distinctUntilChanged, Observable, Subject} from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-events',
   standalone: true,
-  imports: [CardListComponent, MatButtonModule, CommonModule, PaginatorComponent, InputSearchComponent],
+  imports: [CardListComponent, MatButtonModule, MatIconModule, CommonModule, PaginatorComponent, InputSearchComponent],
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss'
 })
@@ -37,7 +38,11 @@ export class EventsComponent implements OnInit {
 
   ngOnInit(): void {
     this._route.queryParams.subscribe((params) => {
-      this.search = params['search'] || '';
+      const searchTerm = params['search'] || ''
+      if (this.search !== searchTerm) {
+        this.search = searchTerm;
+        this.searchSubject.next(this.search);
+      }
       this.page = +params['page'] || 1;
       this.limit = +params['limit'] || 5;
       this.getEvents();
@@ -47,12 +52,11 @@ export class EventsComponent implements OnInit {
 
   private setupSearchDebounce(): void {
     this.searchSubject.pipe(
-      debounceTime(250),
+      debounceTime(300),
       distinctUntilChanged(),
     ).subscribe((term: string) => {
       this.search = term;
       this.updateQueryParams(this.search);
-      this.getEvents();
     });
   }
 
@@ -68,7 +72,6 @@ export class EventsComponent implements OnInit {
   getEvents(): void {
     this._eventService.getEventsList({ limit: this.limit, page: this.page }, this.search)
       .subscribe((res: any) => {
-        console.log("res", res)
         this.events = res.data;
         this.page = res.pagination.page;
         this.totalPages = res.pagination.totalPages;

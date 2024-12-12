@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './input-search.component.scss'
 })
 export class InputSearchComponent {
+
+  @Input() search?:string;
   @Output() searchQuery: EventEmitter<string> = new EventEmitter()
 
   constructor() { }

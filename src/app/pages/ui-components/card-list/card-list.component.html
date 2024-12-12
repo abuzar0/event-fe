@@ -9,17 +9,17 @@
         }}</small></p>
     <p class="card-text"><small class="text-muted">Participants: {{ event.participants.length }}</small></p>
     <p class="card-text"><small class="text-muted">Created by: {{ event.createdBy.username }}</small></p>
-    <div>
-      <button mat-raised-button (click)="joinEvent.emit(event._id)" *ngIf="!_authService.isAdmin()"
-        [disabled]="event.participants.includes(_authService.getUserId())">
-        {{ event.participants.includes(_authService.getUserId()) ? 'Joined' : 'Join Event' }}
-      </button>
-    </div>
-    <div class="d-flex" *ngIf="_authService.isAdmin()">
-      <button mat-button class="me-2" (click)="approvedEvent.emit(event._id)" [disabled]="event.isApprove">
-        {{ event.isApprove ? 'Approved' : 'Approve Event' }}
-      </button>
-      <button (click)="deleteEvent.emit(event._id)" mat-button class="btn btn-danger">Delete Event</button>
-    </div>
+      <div>
+        <button mat-raised-button (click)="joinEvent.emit(event._id)" *ngIf="!_authService.isAdmin()"
+          [disabled]="event.participants.includes(_authService.getUserId()) || !event.isApprove">
+          {{ event.participants.includes(_authService.getUserId()) ? 'Joined' : 'Join Event' }}
+        </button>
+      </div>
+      <div class="d-flex" *ngIf="_authService.isAdmin()">
+        <button mat-raised-button class="me-2" (click)="deleteEvent.emit(event._id)" color="warn">Delete Event</button>
+        <button mat-raised-button color="accent" (click)="approvedEvent.emit(event._id)" [disabled]="event.isApprove">
+          {{ event.isApprove ? 'Approved' : 'Approve Event' }}
+        </button>
+      </div>
   </mat-card-content>
 </mat-card>
