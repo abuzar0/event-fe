@@ -5,12 +5,7 @@ import { HttpService } from '../http/http.service';
   providedIn: 'root'
 })
 export class AuthService {
-  refreshToken() {
-    throw new Error('Method not implemented.');
-  }
-  logout() {
-    throw new Error('Method not implemented.');
-  }
+
 
   constructor(private _httpService: HttpService) { }
 
@@ -21,6 +16,9 @@ export class AuthService {
   loginUser(body: any) {
     return this._httpService.post('/auth/login', body)
   }
+  refreshToken(){
+    return this._httpService.post('/auth/refresh-token',{})
+  }
   isAdmin(): boolean {
     const userRole = localStorage.getItem("userRole");
     return userRole === 'admin';
@@ -28,5 +26,10 @@ export class AuthService {
 
   getUserId(): string | undefined {
     return localStorage.getItem("userId") ?? undefined;
+  }
+
+  logout() {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("role");
   }
 }
