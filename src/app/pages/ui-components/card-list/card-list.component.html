@@ -1,0 +1,26 @@
+<mat-card class="b-1 shadow-none">
+  <mat-card-header>
+    <mat-card-title>{{event.name || "Empty Name"}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1 mt-1">
+    <p class="card-text">{{ event.description}}</p>
+    <p class="card-text"><small class="text-muted">Date: {{ event.event_date | date:'mediumDate' }}</small></p>
+    <p class="card-text"><small class="text-muted">Status: {{ event.isApprove ? 'Approved' : 'Pending Approval'
+        }}</small></p>
+    <p class="card-text"><small class="text-muted">Participants: {{ event.participants.length }}</small></p>
+    <p class="card-text"><small class="text-muted">Created by: {{ event.createdBy.username }}</small></p>
+
+      <div>
+        <button mat-raised-button (click)="joinEvent.emit(event._id)" *ngIf="!_authService.isAdmin()"
+          [disabled]="event.participants.includes(_authService.getUserId()) || !event.isApprove">
+          {{ event.participants.includes(_authService.getUserId()) ? 'Joined' : 'Join Event' }}
+        </button>
+      </div>
+      <div class="d-flex" *ngIf="_authService.isAdmin()">
+        <button mat-raised-button class="me-2" (click)="deleteEvent.emit(event._id)" color="warn">Delete Event</button>
+        <button mat-raised-button color="accent" (click)="approvedEvent.emit(event._id)" [disabled]="event.isApprove">
+          {{ event.isApprove ? 'Approved' : 'Approve Event' }}
+        </button>
+      </div>
+  </mat-card-content>
+</mat-card>
