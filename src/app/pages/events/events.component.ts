@@ -92,7 +92,7 @@ export class EventsComponent implements OnInit {
   }
 
   joinEvent(eventId: string) {
-    this._eventService.joinEvent({ eventId })
+    this._eventService.joinEvent({ _id:eventId })
       .subscribe((res) => {
         this.getEvents();
       })

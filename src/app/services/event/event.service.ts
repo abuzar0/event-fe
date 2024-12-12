@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
+import { IEvent } from 'src/app/utils/types/IEvent';
 
 @Injectable({
   providedIn: 'root'
@@ -17,19 +18,19 @@ export class EventService {
     return this._httpService.get(url);
   }
 
-  createEvent(body: any) {
+  createEvent(body: Partial<IEvent>) {
     return this._httpService.post('/event/create', body);
   }
 
-  joinEvent(body: any) {
+  joinEvent(body: Partial<IEvent>) {
     return this._httpService.post('/event/join', body);
   }
 
-  approvedEvent(id: string, body: any) {
+  approvedEvent(id: string, body: Partial<IEvent>) {
     return this._httpService.patch(`/event/approved/${id}`, body);
   }
 
   deleteEvent(id: string) {
-    return this._httpService.delete(`/event/approved/${id}`);
+    return this._httpService.delete(`/event/${id}`);
   }
 }
