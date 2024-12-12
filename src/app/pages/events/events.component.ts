@@ -11,6 +11,7 @@ import { InputSearchComponent } from "../ui-components/input-search/input-search
 import { debounceTime, distinctUntilChanged, Observable, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { IEvent } from 'src/app/utils/types/IEvent';
 
 @Component({
   selector: 'app-events',
@@ -25,7 +26,7 @@ export class EventsComponent implements OnInit {
   limit: number = 5;
   total: number = 0;
   totalPages: number = 1;
-  events: any[] = []
+  events: IEvent[] = []
   events$?: Observable<any>;
   searchSubject: Subject<string> = new Subject<string>();
   search: string = ''

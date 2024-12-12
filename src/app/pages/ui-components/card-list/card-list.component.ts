@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MaterialModule } from 'src/app/material.module';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { EventService } from 'src/app/services/event/event.service';
+import { IEvent } from 'src/app/utils/types/IEvent';
 
 @Component({
   selector: 'app-card-list',
@@ -12,7 +13,7 @@ import { EventService } from 'src/app/services/event/event.service';
   imports: [MaterialModule, CommonModule]
 })
 export class CardListComponent {
-  @Input() event: any;
+  @Input() event!: IEvent;
 
   @Output() joinEvent: EventEmitter<string> = new EventEmitter();
   @Output() approvedEvent: EventEmitter<string> = new EventEmitter();

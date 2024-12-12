@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 export class AuthService {
 
 
-  constructor(private _httpService: HttpService,private router: Router) { }
+  constructor(private _httpService: HttpService, private router: Router) { }
 
   registerUser(body: any) {
     return this._httpService.post('/auth/register', body)
@@ -17,24 +17,24 @@ export class AuthService {
   loginUser(body: any) {
     return this._httpService.post('/auth/login', body)
   }
-  refreshToken(){
-    return this._httpService.post('/auth/refresh-token',{})
+  refreshToken() {
+    return this._httpService.post('/auth/refresh-token', {})
   }
   isAdmin(): boolean {
     const userRole = localStorage.getItem("userRole");
     return userRole === 'admin';
   }
 
-  getUserId(): string | undefined {
-    return localStorage.getItem("userId") ?? undefined;
+  getUserId(): string {
+    return localStorage.getItem("userId") || '';
   }
 
   logout() {
-    this._httpService.post('/auth/logout',{})
-    .subscribe((res)=>{
-      localStorage.removeItem("userId");
-      localStorage.removeItem("role");
-      this.router.navigate(['/authentication/login']);
-    })
+    this._httpService.post('/auth/logout', {})
+      .subscribe((res) => {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("role");
+        this.router.navigate(['/authentication/login']);
+      })
   }
 }
