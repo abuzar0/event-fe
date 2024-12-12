@@ -1,0 +1,72 @@
+<div class="blank-layout-container justify-content-center align-items-center bg-light-primary">
+  <div class="position-relative row w-100 h-100 bg-gredient justify-content-center">
+    <div class="col-lg-4 d-flex align-items-center">
+      <mat-card class="cardWithShadow boxed-auth">
+        <mat-card-content class="p-32">
+          <!--  -->
+          <form class="user-form" [formGroup]="form">
+
+            <!-- Name Field -->
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Name</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput formControlName="username" placeholder="Enter your name" />
+              <mat-error *ngIf="form.controls['username'].hasError('required') && form.controls['username'].touched">
+                <strong>Username is required.</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['username'].hasError('pattern') && form.controls['username'].touched">
+                <strong>Username can only contain letters, numbers, and underscores.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Email Field -->
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Email Address</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput formControlName="email" type="email" placeholder="Enter your email" />
+              <mat-error *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">
+                <strong>Email is required.</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['email'].hasError('email') && form.controls['email'].touched">
+                <strong>Please enter a valid email address.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Password Field -->
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Password</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput formControlName="password" type="password" placeholder="Enter your password" />
+              <mat-error *ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched">
+                <strong>Password is required.</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['password'].hasError('minlength') && form.controls['password'].touched">
+                <strong>Password must be at least 8 characters long.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Role Field -->
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Role</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <mat-select formControlName="role" placeholder="Select role">
+                <mat-option *ngFor="let item of role" [value]="item._id">{{ item.type }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.controls['role'].hasError('required') && form.controls['role'].touched">
+                <strong>Role is required.</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Submit Button -->
+            <button mat-flat-button color="primary" class="w-100" [disabled]="form.invalid" (click)="onSubmit()">
+              Sign Up
+            </button>
+          </form>
+
+
+          <span class="d-block f-w-500 text-center m-t-24">Already have an Account?
+
+            <a [routerLink]="['/authentication/login']" class="text-decoration-none text-primary f-w-500 f-s-14">
+              Sign In</a>
+          </span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
