@@ -12,11 +12,11 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    // Check for access token in cookies
+
     const accessToken = localStorage.getItem('userId');
 
     if (accessToken) {
-      return true;  // If token exists, allow navigation
+      return true;
     } else {
       this.router.navigate(['/authentication/login']);
       return false;

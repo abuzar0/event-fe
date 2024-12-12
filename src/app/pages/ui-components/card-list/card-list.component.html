@@ -4,7 +4,7 @@
   </mat-card-header>
   <mat-card-content class="b-t-1 mt-1">
     <p class="card-text">{{ event.description}}</p>
-    <p class="card-text"><small class="text-muted">Date: {{ event.created | date:'mediumDate' }}</small></p>
+    <p class="card-text"><small class="text-muted">Date: {{ event.event_date | date:'mediumDate' }}</small></p>
     <p class="card-text"><small class="text-muted">Status: {{ event.isApprove ? 'Approved' : 'Pending Approval'
         }}</small></p>
     <p class="card-text"><small class="text-muted">Participants: {{ event.participants.length }}</small></p>
