@@ -6,8 +6,6 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private isRefreshing = false;
-  private refreshTokenSubject: Subject<any> = new Subject<any>();
 
   constructor(
     private authService: AuthService,
@@ -35,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
         return next.handle(request);
       }),
       catchError((error) => {
-        console.error('Error handling expired access token:', error);
+        this.router.navigate(['/authentication/login']);
         return throwError(error);
       })
     );
