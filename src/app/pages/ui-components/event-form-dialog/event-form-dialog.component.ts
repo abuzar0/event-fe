@@ -34,7 +34,6 @@ export class EventFormDialogComponent {
     if (this.eventForm.valid) {
       this._eventService.createEvent(this.eventForm.value)
       .subscribe((res)=>{
-        console.log("res",res);
         this._modelRef.closeAll()
       })
     }

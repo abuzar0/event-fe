@@ -60,7 +60,6 @@ export class UserFormDialogComponent {
 
     this._roleService.getRoles()
     .subscribe((res:any)=>{
-      console.log(res);
       this.role=res.data;
     },
   )
@@ -77,7 +76,6 @@ export class UserFormDialogComponent {
       this._authService
         .registerUser(body)
         .subscribe((res: any) => {
-          console.log(res);
           this._dialogRef.closeAll();
         });
     }
