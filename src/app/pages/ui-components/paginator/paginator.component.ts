@@ -20,7 +20,7 @@ export class PaginatorComponent {
 
   ngOnChanges() {
     if (this.paginator) {
-      this.paginator.pageIndex = this.pageIndex;
+      this.paginator.pageIndex = this.pageIndex - 1;
       this.paginator.pageSize = this.pageSize;
     }
   }
