@@ -11,14 +11,14 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Manage Events',
-    iconName: 'layout-dashboard',
+    iconName: 'rosette',
     route: '/dashboard/event',
   },
-  // {
-  //   displayName: 'Manage User',
-  //   iconName: 'layout-dashboard',
-  //   route: '/dashboard/user',
-  // },
+  {
+    displayName: 'Role & Permission',
+    iconName: 'lock-access',
+    route: '/dashboard/role-permission',
+  },
   // {
   //   navCap: 'Ui Components',
   // },

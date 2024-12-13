@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Create New Role</h2>
+<mat-dialog-content class="mat-typography">
+  <form class="role-form" [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+    <!-- Role Type -->
+    <div class="mb-3">
+      <label for="roleType" class="form-label">Role Type</label>
+      <input
+        type="text"
+        class="form-control"
+        id="roleType"
+        formControlName="type"
+        [class.is-invalid]="roleForm.get('type')?.invalid && roleForm.get('type')?.touched"
+        required
+      />
+      <div class="invalid-feedback" *ngIf="roleForm.get('type')?.invalid && roleForm.get('type')?.touched">
+        Role Type is required.
+      </div>
+    </div>
+
+    <!-- Permissions -->
+    <div class="mb-3">
+      <label for="permissions" class="form-label">Permissions</label>
+      <div class="d-flex flex-wrap">
+        <div *ngFor="let permission of availablePermissions" class="form-check form-switch me-3">
+          <label class="form-check-label">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              [checked]="roleForm.get('permissions')?.value.includes(permission)"
+              (change)="onPermissionToggle(permission, $event)"
+            />
+            {{ permission }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-end">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-button type="submit" [disabled]="!roleForm.valid" cdkFocusInitial>Save</button>
+    </div>
+  </form>
+</mat-dialog-content>
