@@ -13,13 +13,8 @@
 
 
 @if(events.length>0){
-<div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-4">
-  @for (item of events; track $index) {
-  <div class="col">
-    <app-card-list [event]="item" (deleteEvent)="deleteEvent($event)" (joinEvent)="joinEvent($event)"
-      (approvedEvent)="approvedEvent($event)"></app-card-list>
-  </div>
-  }
+<div class="row">
+  <app-table [displayedColumns]="displayedColumns" [dataSource]="events" [actions]="actions"></app-table>
 </div>
 }@else {
 <div class="justify-content-center ng-star-inserted row text-center w-100"> No Data Exits</div>

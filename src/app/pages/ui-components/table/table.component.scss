@@ -1,0 +1,20 @@
+.mdc-data-table__cell{
+  font-size: 12px;
+  // text-align: center;
+}
+.mat-mdc-header-cell{
+  font-size: 12px;
+  text-align: center;
+}
+
+.mat-mdc-row:nth-child(n + 1) {
+  background-color: #f3f3f3;
+}
+
+.mat-mdc-row:not(:nth-child(2n + 1)) {
+  background-color: #ffffff;
+}
+
+.mdc-data-table__cell{
+  border: #f3f3f3;
+}

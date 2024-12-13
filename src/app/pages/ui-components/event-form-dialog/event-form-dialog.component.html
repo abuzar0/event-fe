@@ -1,18 +1,55 @@
 <h2 mat-dialog-title>Create New Event</h2>
 <mat-dialog-content class="mat-typography">
   <form class="event-form" [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <!-- Event Name -->
     <div class="mb-3">
       <label for="eventName" class="form-label">Event Name</label>
-      <input type="text" class="form-control" id="eventName" formControlName="name" required>
+      <input
+        type="text"
+        class="form-control"
+        id="eventName"
+        formControlName="name"
+        [class.is-invalid]="eventForm.get('name')?.invalid && eventForm.get('name')?.touched"
+        required
+      />
+      <div class="invalid-feedback" *ngIf="eventForm.get('name')?.invalid && eventForm.get('name')?.touched">
+        Event Name is required.
+      </div>
     </div>
+
+    <!-- Event Description -->
     <div class="mb-3">
       <label for="eventDescription" class="form-label">Event Description</label>
-      <textarea class="form-control" id="eventDescription" formControlName="description" required></textarea>
+      <textarea
+        class="form-control"
+        id="eventDescription"
+        formControlName="description"
+        [class.is-invalid]="eventForm.get('description')?.invalid && eventForm.get('description')?.touched"
+        required
+      ></textarea>
+      <div class="invalid-feedback" *ngIf="eventForm.get('description')?.invalid && eventForm.get('description')?.touched">
+        Description must be at least 10 characters long.
+      </div>
     </div>
+
+    <!-- Event Date -->
     <div class="mb-3">
       <label for="eventDate" class="form-label">Event Date</label>
-      <input type="date" class="form-control" id="eventDate" formControlName="date" required>
+      <input
+        type="date"
+        class="form-control"
+        id="eventDate"
+        formControlName="date"
+        [min]="todayDate"
+        [class.is-invalid]="eventForm.get('date')?.invalid && eventForm.get('date')?.touched"
+        required
+      />
+      <div class="invalid-feedback" *ngIf="eventForm.get('date')?.invalid && eventForm.get('date')?.touched">
+        Please select a valid date.
+      </div>
     </div>
+
+    <!-- Buttons -->
     <div class="d-flex justify-content-end">
       <button mat-button mat-dialog-close>Cancel</button>
       <button mat-button type="submit" [disabled]="!eventForm.valid" cdkFocusInitial>Save</button>
