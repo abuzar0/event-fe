@@ -161,15 +161,18 @@ export class EventsComponent implements OnInit {
 
 
   updateQueryParams(search: string): void {
+    const queryParams: { [key: string]: any } = {
+      page: this.page,
+      limit: this.limit,
+      search: search || null,
+    };
+
     this._router.navigate([], {
       relativeTo: this._route,
-      queryParams: {
-        search,
-        page: this.page,
-        limit: this.limit
-      },
-      queryParamsHandling: 'merge'
+      queryParams,
+      queryParamsHandling: 'merge',
     });
   }
+
 
 }
