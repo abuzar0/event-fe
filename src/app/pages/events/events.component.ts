@@ -14,20 +14,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { IEvent } from 'src/app/utils/types/IEvent';
 import { TableComponent } from "../ui-components/table/table.component";
 import { ToastDialogComponent } from '../ui-components/toast-dialog/toast-dialog.component';
+import { IAction } from 'src/app/utils/types/IAction';
 
-
-type Action = {
-  color: string;
-  title: string;
-  icon: string;
-  Method: (args: any) => void;
-  disable: boolean | ((event: any) => boolean); // Allow both boolean and function
-};
 
 @Component({
   selector: 'app-events',
   standalone: true,
-  imports: [CardListComponent, MatButtonModule, MatIconModule, CommonModule, PaginatorComponent, InputSearchComponent, TableComponent],
+  imports: [MatButtonModule, MatIconModule, CommonModule, PaginatorComponent, InputSearchComponent, TableComponent],
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss'
 })
@@ -44,7 +37,7 @@ export class EventsComponent implements OnInit {
   searchSubject: Subject<string> = new Subject<string>();
   search: string = ''
   displayedColumns = ['name', 'description', 'event_date', 'isApprove', 'participants', 'action'];
-  actions: Action[] = [];
+  actions: IAction[] = [];
 
   constructor(public _authService: AuthService,
     private _eventService: EventService,
