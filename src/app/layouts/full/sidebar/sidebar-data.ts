@@ -74,3 +74,14 @@ export const navItems: NavItem[] = [
   //   route: '/extra/sample-page',
   // },
 ];
+
+export const navItemsUSER: NavItem[] = [
+  {
+    navCap: 'Home',
+  },
+  {
+    displayName: 'Manage Events',
+    iconName: 'rosette',
+    route: '/dashboard/event',
+  }
+];
