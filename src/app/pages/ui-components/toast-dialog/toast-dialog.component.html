@@ -1,8 +1,12 @@
-<h2 mat-dialog-title>{{data.title}}</h2>
 <mat-dialog-content>
-  {{data.text}}
+  <div class="align-items-center d-flex">
+    <mat-icon *ngIf="data.icon" style="margin-right:0.25em;" [color]="data.iconColor">{{data.icon |
+      lowercase}}</mat-icon>
+    {{data.message}}
+  </div>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close cdkFocusInitial>No</button>
-  <button mat-button  (click)="closeDialog()">Ok</button>
+<mat-dialog-actions align="end">
+  <button mat-button [color]="data.iconColor" (click)="closeDialog()" mat-dialog-close>
+    {{data.icon}}
+  </button>
 </mat-dialog-actions>

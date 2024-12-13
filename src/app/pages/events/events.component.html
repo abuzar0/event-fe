@@ -7,18 +7,26 @@
   </div>
 </div>
 
-<div class="row my-3">
-  <app-input-search [search]="search" (searchQuery)="searchByQuery($event)"></app-input-search>
-</div>
+<mat-card appearance="outlined">
+  <mat-card-header class="justify-content-end">
+    <div class="row my-3">
+      <app-input-search [search]="search" (searchQuery)="searchByQuery($event)"></app-input-search>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    @if(events.length>0){
+    <div class="row">
+      <app-table [displayedColumns]="displayedColumns" [dataSource]="events" [actions]="actions"></app-table>
+    </div>
+    }@else {
+    <div class="justify-content-center ng-star-inserted row text-center w-100"> No Data Exits</div>
+    }
+  </mat-card-content>
+</mat-card>
 
 
-@if(events.length>0){
-<div class="row">
-  <app-table [displayedColumns]="displayedColumns" [dataSource]="events" [actions]="actions"></app-table>
-</div>
-}@else {
-<div class="justify-content-center ng-star-inserted row text-center w-100"> No Data Exits</div>
-}
+
+
 
 
 <app-paginator [length]="total" [pageIndex]="page" [pageSize]="limit" (_pageEvent)="handlePage($event)">

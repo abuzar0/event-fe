@@ -15,12 +15,13 @@ import { IEvent } from 'src/app/utils/types/IEvent';
 import { TableComponent } from "../ui-components/table/table.component";
 import { ToastDialogComponent } from '../ui-components/toast-dialog/toast-dialog.component';
 import { IAction } from 'src/app/utils/types/IAction';
+import { MatCardModule } from '@angular/material/card';
 
 
 @Component({
   selector: 'app-events',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, CommonModule, PaginatorComponent, InputSearchComponent, TableComponent],
+  imports: [MatButtonModule, MatCardModule, MatIconModule, CommonModule, PaginatorComponent, InputSearchComponent, TableComponent],
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss'
 })
@@ -60,13 +61,13 @@ export class EventsComponent implements OnInit {
 
     if (this._authService.isAdmin()) {
       this.actions = [
-        { color: 'primary', title: 'Approved', icon: 'search-plus', Method: (args: any) => { this.approvedEvent(args._id) }, disable: (event: any) => event.isApprove },
-        { color: 'primary', title: 'Delete', icon: 'search-plus', Method: (args: any) => { this.deleteEvent(args) }, disable: false }
+        { color: 'primary', title: 'Approve', icon: 'approval', Method: (args: any) => { this.approvedEvent(args._id) }, disable: (event: any) => event.isApprove },
+        { color: 'warn', title: 'Delete', icon: 'delete', Method: (args: any) => { this.deleteEvent(args) }, disable: false }
       ];
     } else {
       this.actions = [
         {
-          color: 'primary', title: 'Join', icon: 'search-plus',
+          color: 'secondary', title: 'Join', icon: 'date_range',
           Method: (args: any) => { this.joinEvent(args._id) },
           disable: (event: any) => event.participants.includes(this._authService.getUserId()) || !event.isApprove
         }
@@ -133,21 +134,22 @@ export class EventsComponent implements OnInit {
     if (event.isApprove) {
       const dialogRef = this.dialog.open(ToastDialogComponent, {
         data: {
-          title: 'Delete',
-          text: 'Do You Want to Delete Event ?',
+          icon: 'Delete',
+          iconColor:'warn',
+          message: 'Do You Want to Delete ?'
         }
       })
 
       dialogRef.afterClosed()
         .subscribe((res) => {
-          if(res=='yes'){
+          if (res == 'yes') {
             this._eventService.deleteEvent(event._id)
-            .subscribe((res) => {
-              this.getEvents();
-            })
+              .subscribe((res) => {
+                this.getEvents();
+              })
           }
         })
-    }else{
+    } else {
       this.dialog.open(ToastDialogComponent, {
         data: {
           title: 'Warning',
