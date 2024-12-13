@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-toast-dialog',
@@ -11,4 +11,9 @@ import { MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MAT
 })
 export class ToastDialogComponent {
   data = inject(MAT_DIALOG_DATA);
+  dialogRef = inject(MatDialogRef<ToastDialogComponent>);
+
+  closeDialog() {
+    this.dialogRef.close('yes');
+  }
 }

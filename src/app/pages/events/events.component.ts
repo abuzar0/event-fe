@@ -147,10 +147,12 @@ export class EventsComponent implements OnInit {
 
       dialogRef.afterClosed()
         .subscribe((res) => {
-          this._eventService.deleteEvent(event._id)
+          if(res=='yes'){
+            this._eventService.deleteEvent(event._id)
             .subscribe((res) => {
               this.getEvents();
             })
+          }
         })
     }else{
       this.dialog.open(ToastDialogComponent, {
