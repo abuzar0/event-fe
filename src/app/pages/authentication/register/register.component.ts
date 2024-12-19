@@ -35,7 +35,6 @@ export class AppSideRegisterComponent {
 
     this._roleService.getRoles()
     .subscribe((res:any)=>{
-      console.log(res);
       this.role=res.data;
     },
   )
@@ -48,13 +47,11 @@ export class AppSideRegisterComponent {
   }
 
   onSubmit() {
-    // console.log(this.form.value);
     if(this.form.valid){
       const body = { ...this.form.value }
       this._authService
         .registerUser(body)
         .subscribe((res: any) => {
-          console.log(res);
           this.router.navigate(['/authentication/login']);
         });
     }

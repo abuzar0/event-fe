@@ -1,45 +1,70 @@
 <div class="table">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table " style="height: 100%;" matSort>
-    <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>{{ column}}</th>
+  <table mat-table matSort [dataSource]="dataSourceInstance" class="mat-elevation-z8 demo-table" style="height: 100%;">
 
-      <ng-container *ngIf="column != 'action';else action">
-        <td mat-cell *matCellDef="let element">
-          {{ element[column]}}
-        </td>
-      </ng-container>
-      <ng-template #action>
-
-
-        <td mat-cell *matCellDef="let row">
-
-          <button mat-icon-button xPosition="after" [matMenuTriggerFor]="menu"
-            aria-label="Example icon-button with a menu">
-            <mat-icon color="primary">view_list</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <div *ngFor="let btn of actions">
-              <button mat-menu-item [title]="btn.title" (click)="btn.Method(row)">
-                <mat-icon color={{btn.color}}>{{btn.icon}}</mat-icon>
-                <span>{{btn.title}}</span>
-              </button>
-            </div>
-
-          </mat-menu>
-        </td>
-
-      </ng-template>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns" style="max-height:30px"></tr>
-  </table>
-</div>
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Description</th>
+      <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+    </ng-container>
 
-<div>
-  <div class="paginator">
-      <mat-paginator #paginator [pageSizeOptions]="[10,20,30,50,60,90,100,400]" showFirstLastButtons
-          aria-label="Select page of periodic elements">
-      </mat-paginator>
-  </div>
+    <!-- Event Date Column -->
+    <ng-container matColumnDef="event_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Event Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.event_date | date: 'short' }}</td>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="isApprove">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Status</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.isApprove ? 'Approved' : 'Not Approved' }}
+      </td>
+    </ng-container>
+
+    <!-- Participants Column -->
+    <ng-container matColumnDef="participants">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Participants Count</th>
+      <td mat-cell *matCellDef="let element">{{ element.participants.length }}</td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef sticky>Actions</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button xPosition="after" [matMenuTriggerFor]="menu" aria-label="Actions Menu">
+          <mat-icon color="primary">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+
+          <div *ngIf="!_authService.isAdmin()">
+            <button mat-menu-item *ngFor="let btn of actions" (click)="!getDisabledState(btn, row) && btn.Method(row)"
+              [disabled]="getDisabledState(btn, row)">
+              <mat-icon [color]="btn.color">{{ btn.icon }}</mat-icon>
+              <span>{{ btn.title }}</span>
+            </button>
+          </div>
+
+          <div *ngIf="_authService.isAdmin()">
+            <button mat-menu-item *ngFor="let btn of actions" (click)="!getDisabledState(btn, row) && btn.Method(row)"
+              [disabled]="getDisabledState(btn, row)">
+              <mat-icon [color]="btn.color">{{ btn.icon }}</mat-icon>
+              <span>{{ btn.title }}</span>
+            </button>
+          </div>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+
 </div>

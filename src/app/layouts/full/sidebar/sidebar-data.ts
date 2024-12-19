@@ -11,14 +11,14 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Manage Events',
-    iconName: 'layout-dashboard',
+    iconName: 'rosette',
     route: '/dashboard/event',
   },
-  // {
-  //   displayName: 'Manage User',
-  //   iconName: 'layout-dashboard',
-  //   route: '/dashboard/user',
-  // },
+  {
+    displayName: 'Role & Permission',
+    iconName: 'lock-access',
+    route: '/dashboard/role-permission',
+  },
   // {
   //   navCap: 'Ui Components',
   // },
@@ -73,4 +73,15 @@ export const navItems: NavItem[] = [
   //   iconName: 'aperture',
   //   route: '/extra/sample-page',
   // },
+];
+
+export const navItemsUSER: NavItem[] = [
+  {
+    navCap: 'Home',
+  },
+  {
+    displayName: 'Manage Events',
+    iconName: 'rosette',
+    route: '/dashboard/event',
+  }
 ];

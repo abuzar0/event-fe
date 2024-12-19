@@ -1,0 +1,20 @@
+<div class="row">
+  <h2 class="mb-4 col-6">Role & Permission</h2>
+  <div class="col-6 text-end">
+    <button mat-mini-fab *ngIf="_authService.isAdmin()" (click)="openRoleForm()">
+      <mat-icon class="mat-18">add_circle</mat-icon>
+    </button>
+  </div>
+</div>
+
+<mat-card appearance="outlined">
+  <mat-card-content>
+    @if(roles.length>0){
+    <div class="row">
+      <app-role-table [displayedColumns]="displayedColumns" [dataSource]="roles" [actions]="actions"></app-role-table>
+    </div>
+    }@else {
+    <div class="justify-content-center ng-star-inserted row text-center w-100"> No Data Exits</div>
+    }
+  </mat-card-content>
+</mat-card>

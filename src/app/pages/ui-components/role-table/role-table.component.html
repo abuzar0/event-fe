@@ -1,0 +1,40 @@
+<div class="table">
+  <table mat-table matSort [dataSource]="dataSourceInstance" class="mat-elevation-z8 demo-table" style="height: 100%;">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+    </ng-container>
+
+
+    <!-- Permission Column -->
+    <ng-container matColumnDef="permissions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Permissions</th>
+      <td mat-cell *matCellDef="let element">{{ element.permissions.join() }}</td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef sticky>Actions</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button xPosition="after" [matMenuTriggerFor]="menu" aria-label="Actions Menu">
+          <mat-icon color="primary">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item *ngFor="let btn of actions" (click)="!getDisabledState(btn, row) && btn.Method(row)"
+              [disabled]="getDisabledState(btn, row)">
+              <mat-icon [color]="btn.color">{{ btn.icon }}</mat-icon>
+              <span>{{ btn.title }}</span>
+            </button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+
+</div>

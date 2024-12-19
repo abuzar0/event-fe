@@ -24,13 +24,11 @@ export class AppSideLoginComponent {
   }
 
   onSubmit() {
-    // console.log(this.form.value);
     if(this.form.valid){
       const body = { ...this.form.value }
       this._authService
         .loginUser(body)
         .subscribe((res: any) => {
-          console.log(res);
           localStorage.setItem("userId",res.data._id);
           localStorage.setItem("userRole",res.data.role);
           this.router.navigate(['/dashboard']);
